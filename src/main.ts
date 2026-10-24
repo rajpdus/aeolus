@@ -2,7 +2,7 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "./style.css";
 import { FieldStore, loadManifest, type Manifest } from "./data";
-import { OVERLAYS, cycleUnit, format, rampColor, rampCss, rampOf, unitLabel, type Overlay, type Theme } from "./layers";
+import { OVERLAYS, cycleUnit, format, icon, rampColor, rampCss, rampOf, unitLabel, type Overlay, type Theme } from "./layers";
 import { WeatherLayer } from "./weatherLayer";
 import { showForecast } from "./forecast";
 
@@ -121,7 +121,8 @@ async function start() {
   const nav = $("overlays");
   for (const o of OVERLAYS) {
     const b = document.createElement("button");
-    b.textContent = o.label;
+    b.innerHTML = `<span>${o.label}</span>${icon(o.id as Parameters<typeof icon>[0])}`;
+    b.title = o.label;
     b.dataset.id = o.id;
     b.onclick = () => setOverlay(o);
     nav.append(b);

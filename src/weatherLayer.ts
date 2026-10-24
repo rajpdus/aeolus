@@ -477,7 +477,7 @@ export class WeatherLayer implements CustomLayerInterface {
       gl.uniform1i(p.u.u_vector, ov.vector ? 1 : 0);
       gl.uniform1f(p.u.u_iso, ov.isolines ?? 0);
       gl.uniform1f(p.u.u_opacity, 1);
-      gl.uniform1f(p.u.u_lighten, this.theme === "light" ? 0.2 : 0);
+      gl.uniform1f(p.u.u_lighten, this.theme === "light" ? 0.05 : 0);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
     }
 

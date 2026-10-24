@@ -52,7 +52,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 #theme:hover { background: var(--hover); }
 
 #overlays { position: absolute; right: 12px; top: 54px; display: flex; flex-direction: column; padding: 4px; gap: 2px; }
-#overlays button { background: none; border: 0; text-align: right; padding: 7px 12px; border-radius: 6px; }
+#overlays button {
+  display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+  background: none; border: 0; padding: 6px 10px 6px 14px; border-radius: 6px;
+}
+#overlays button svg { flex: none; opacity: 0.85; }
+#overlays button.on svg { opacity: 1; }
 #overlays button:hover { background: var(--hover); }
 #overlays button.on { background: var(--accent); color: var(--on-accent); }
 
@@ -117,7 +122,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
   #brand { display: none; }
   #theme { top: 56px; }
   #overlays { top: 98px; }
-  #overlays button { padding: 6px 8px; font-size: 12px; }
+  /* icons only on phones; the label stays as the tooltip */
+  #overlays button { padding: 7px; }
+  #overlays button span { display: none; }
   #legend { width: 170px; }
   #run { display: none; }
 }
