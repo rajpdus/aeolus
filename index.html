@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Aeolus</title>
+    <meta name="description" content="Open-source animated weather map built on open NOAA GFS data." />
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <div id="search" class="panel">
+      <input id="q" type="search" placeholder="Search location…" autocomplete="off" />
+      <ul id="results"></ul>
+    </div>
+
+    <div id="brand" class="panel"><b>Aeolus</b></div>
+
+    <button id="theme" class="panel" aria-label="Toggle light or dark mode"></button>
+
+    <nav id="overlays" class="panel"></nav>
+
+    <div id="legend" class="panel" title="Click to change units">
+      <span id="legend-unit"></span>
+      <div id="legend-bar"></div>
+      <div id="legend-ticks"></div>
+    </div>
+
+    <section id="detail" hidden>
+      <header>
+        <div><b id="detail-name"></b> <span id="detail-coords"></span></div>
+        <span id="detail-src"></span>
+        <button id="detail-close" aria-label="Close">×</button>
+      </header>
+      <div id="detail-body"></div>
+    </section>
+
+    <footer id="timeline">
+      <button id="play" aria-label="Play">▶</button>
+      <div id="track">
+        <div id="days"></div>
+        <input id="time" type="range" min="0" max="1" step="0.01" value="0" />
+        <div id="bubble"></div>
+      </div>
+      <div id="run"></div>
+    </footer>
+
+    <div id="error" hidden></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

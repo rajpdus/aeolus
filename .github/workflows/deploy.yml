@@ -1,0 +1,52 @@
+# Builds the app, ingests the newest GFS run and publishes both to GitHub Pages.
+# Runs on every push to main and every 6 hours, ~5.5 h after each GFS cycle
+# (00/06/12/18z) when the full 120 h forecast has been published.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "30 5,11,17,23 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: ingest/requirements.txt
+      - run: npm ci
+      - run: pip install -r ingest/requirements.txt
+      - run: python ingest/gfs.py --out public/data
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,4 @@
+eccodes
+numpy
+pillow
+requests
