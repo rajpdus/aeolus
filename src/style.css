@@ -113,7 +113,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 #error { position: absolute; inset: 0; display: grid; place-items: center; font-size: 16px; background: var(--bg); z-index: 10; }
 
 .maplibregl-ctrl-bottom-right { bottom: 132px; }
-.maplibregl-ctrl-top-right { top: 0; right: 150px; }
+.maplibregl-ctrl-bottom-left { bottom: 64px; }
 :root[data-theme="dark"] .maplibregl-ctrl-attrib { background: var(--panel); color: var(--muted); }
 :root[data-theme="dark"] .maplibregl-ctrl-attrib a { color: var(--soft); }
 

@@ -20,8 +20,12 @@ const STYLES: Record<Theme, string> = {
   light: "https://tiles.openfreemap.org/styles/positron",
 };
 
+// ?layer=temp&theme=light in the URL wins over the saved choice, so links can pin a view.
+const params = new URLSearchParams(location.search);
+const urlTheme = params.get("theme");
 let theme: Theme =
-  (saved("theme") as Theme | null) ?? (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+  urlTheme === "light" || urlTheme === "dark" ? urlTheme
+    : (saved("theme") as Theme | null) ?? (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
 document.documentElement.dataset.theme = theme;
 
 async function start() {
@@ -36,7 +40,8 @@ async function start() {
   const store = new FieldStore(manifest);
   const steps = manifest.steps.map((s) => new Date(s.time));
 
-  let overlay: Overlay = OVERLAYS.find((o) => o.id === saved("overlay")) ?? OVERLAYS[0];
+  let overlay: Overlay =
+    OVERLAYS.find((o) => o.id === params.get("layer")) ?? OVERLAYS.find((o) => o.id === saved("overlay")) ?? OVERLAYS[0];
   const layer = new WeatherLayer(store, overlay);
   layer.theme = theme;
 
@@ -65,7 +70,7 @@ async function start() {
   map.addControl(new maplibregl.AttributionControl({
     compact: true,
     customAttribution: `Weather: <a href="https://www.nco.ncep.noaa.gov/pmb/products/gfs/">NOAA GFS</a> · Forecasts: <a href="https://open-meteo.com/">Open-Meteo</a>`,
-  }), "top-right");
+  }), "bottom-left");
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
 
   map.on("style.load", () => {
